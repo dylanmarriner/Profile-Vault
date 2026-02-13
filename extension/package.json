@@ -12,45 +12,96 @@
   ],
   "main": "./dist/extension.js",
   "activationEvents": [
+    "onStartupFinished",
     "onCommand:profileVault.capture",
     "onCommand:profileVault.apply",
     "onCommand:profileVault.export",
     "onCommand:profileVault.import",
     "onCommand:profileVault.diff",
     "onCommand:profileVault.delete",
-    "onCommand:profileVault.openStorage"
+    "onCommand:profileVault.openStorage",
+    "onView:profileVault.profiles"
   ],
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "profileVault",
+          "title": "Profile Vault",
+          "icon": "resources/vault-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "profileVault": [
+        {
+          "id": "profileVault.profiles",
+          "name": "Profiles"
+        }
+      ]
+    },
     "commands": [
       {
+        "command": "profileVault.refresh",
+        "title": "Refresh",
+        "icon": "$(refresh)"
+      },
+      {
         "command": "profileVault.capture",
-        "title": "Profile Vault: Capture Profile"
+        "title": "Profile Vault: Capture Profile",
+        "icon": "$(add)"
       },
       {
         "command": "profileVault.apply",
-        "title": "Profile Vault: Apply Profile"
+        "title": "Profile Vault: Apply Profile",
+        "icon": "$(check)"
       },
       {
         "command": "profileVault.export",
-        "title": "Profile Vault: Export Profile"
+        "title": "Profile Vault: Export Profile",
+        "icon": "$(export)"
       },
       {
         "command": "profileVault.import",
-        "title": "Profile Vault: Import Profile"
+        "title": "Profile Vault: Import Profile",
+        "icon": "$(import)"
       },
       {
         "command": "profileVault.diff",
-        "title": "Profile Vault: Diff Profiles"
+        "title": "Profile Vault: Diff Profiles",
+        "icon": "$(compare-changes)"
       },
       {
         "command": "profileVault.delete",
-        "title": "Profile Vault: Delete Profile"
+        "title": "Profile Vault: Delete Profile",
+        "icon": "$(trash)"
       },
       {
         "command": "profileVault.openStorage",
-        "title": "Profile Vault: Open Local Storage Folder"
+        "title": "Profile Vault: Open Local Storage Folder",
+        "icon": "$(folder-opened)"
       }
     ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "profileVault.refresh",
+          "when": "view == profileVault.profiles",
+          "group": "navigation"
+        },
+        {
+          "command": "profileVault.capture",
+          "when": "view == profileVault.profiles",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "profileVault.refresh",
+          "when": "false"
+        }
+      ]
+    },
     "configuration": {
       "title": "Profile Vault",
       "properties": {
