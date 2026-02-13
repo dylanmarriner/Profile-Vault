@@ -1,0 +1,86 @@
+name: Coverage
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+jobs:
+  coverage:
+    name: Coverage Report
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests with coverage
+        run: npm run test:coverage
+
+      - name: Process coverage reports
+        run: |
+          npx nyc merge coverage coverage/merged.json
+          npx nyc report --reporter=lcov --reporter=text-summary --reporter=html
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 30
+
+      - name: Coverage comment
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const coverageSummary = fs.readFileSync('coverage/coverage-summary.json', 'utf8');
+            const summary = JSON.parse(coverageSummary);
+            
+            const total = summary.total;
+            const lines = total.lines.pct;
+            const functions = total.functions.pct;
+            const branches = total.branches.pct;
+            const statements = total.statements.pct;
+            
+            const comment = `## 📊 Coverage Report
+            
+            | Metric | Coverage |
+            |--------|----------|
+            | Lines | ${lines}% |
+            | Functions | ${functions}% |
+            | Branches | ${branches}% |
+            | Statements | ${statements}% |
+            | **Overall** | **${lines}%** |
+            
+            [View detailed report](${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID})`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });

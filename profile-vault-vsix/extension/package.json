@@ -1,0 +1,171 @@
+{
+    "name": "profile-vault",
+    "displayName": "Profile Vault",
+    "description": "Capture/apply/export/import IDE profiles (settings, extensions, workflows, rules) across Antigravity & Windsurf.",
+    "version": "0.2.0",
+    "publisher": "profile-vault",
+    "engines": {
+        "vscode": "^1.85.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "main": "./extension.js",
+    "icon": "resources/icon.png",
+    "contributes": {
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "profileVault",
+                    "title": "Profile Vault",
+                    "icon": "resources/icon.svg"
+                }
+            ]
+        },
+        "views": {
+            "profileVault": [
+                {
+                    "id": "profileVault.profiles",
+                    "name": "Profiles",
+                    "contextualTitle": "Profile Vault",
+                    "icon": "$(file-directory)"
+                }
+            ]
+        },
+        "menus": {
+            "view/item/context": [
+                {
+                    "command": "profileVault.apply",
+                    "when": "view == profileVault.profiles && viewItem == profile",
+                    "group": "inline"
+                },
+                {
+                    "command": "profileVault.export",
+                    "when": "view == profileVault.profiles && viewItem == profile",
+                    "group": "inline"
+                },
+                {
+                    "command": "profileVault.delete",
+                    "when": "view == profileVault.profiles && viewItem == profile",
+                    "group": "inline"
+                }
+            ],
+            "view/title": [
+                {
+                    "command": "profileVault.capture",
+                    "when": "view == profileVault.profiles",
+                    "group": "navigation"
+                },
+                {
+                    "command": "profileVault.import",
+                    "when": "view == profileVault.profiles",
+                    "group": "navigation"
+                }
+            ]
+        },
+        "commands": [
+            {
+                "command": "profileVault.capture",
+                "title": "Profile Vault: Capture Profile",
+                "icon": "$(add)"
+            },
+            {
+                "command": "profileVault.apply",
+                "title": "Profile Vault: Apply Profile",
+                "icon": "$(check)"
+            },
+            {
+                "command": "profileVault.export",
+                "title": "Profile Vault: Export Profile",
+                "icon": "$(export)"
+            },
+            {
+                "command": "profileVault.import",
+                "title": "Profile Vault: Import Profile",
+                "icon": "$(import)"
+            },
+            {
+                "command": "profileVault.diff",
+                "title": "Profile Vault: Diff Profiles",
+                "icon": "$(diff)"
+            },
+            {
+                "command": "profileVault.delete",
+                "title": "Profile Vault: Delete Profile",
+                "icon": "$(trash)"
+            },
+            {
+                "command": "profileVault.openStorage",
+                "title": "Profile Vault: Open Local Storage Folder",
+                "icon": "$(folder-opened)"
+            }
+        ],
+        "configuration": {
+            "title": "Profile Vault",
+            "properties": {
+                "profileVault.capture.includeUser": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Include user settings/keybindings/snippets."
+                },
+                "profileVault.capture.includeWorkspace": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Include workspace .vscode directory."
+                },
+                "profileVault.capture.includeRulesWorkflows": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Include rules/workflows (known files + globs)."
+                },
+                "profileVault.capture.ruleGlobs": {
+                    "type": "array",
+                    "default": [
+                        "**/.windsurfrules",
+                        "**/.cursorrules",
+                        "**/.antigravity/**",
+                        "**/.windsurf/**",
+                        "**/workflows/**/*.md",
+                        "**/rules/**/*.md"
+                    ],
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Workspace-relative glob patterns to include for rules/workflows."
+                },
+                "profileVault.capture.includeExtensions": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Include installed extensions list."
+                },
+                "profileVault.security.enableRedaction": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Redact obvious secrets from captured text files."
+                },
+                "profileVault.security.redactionPatterns": {
+                    "type": "array",
+                    "default": [
+                        "(?i)api[_-]?key\\s*[:=]\\s*['\\\"]?[A-Za-z0-9_\\-]{16,}['\\\"]?",
+                        "(?i)secret\\s*[:=]\\s*['\\\"]?.{8,}['\\\"]?",
+                        "(?i)token\\s*[:=]\\s*['\\\"]?[A-Za-z0-9_\\-]{16,}['\\\"]?"
+                    ],
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Regex patterns used to redact secrets in captured text files."
+                },
+                "profileVault.crypto.encryptLocalStore": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Encrypt blobs stored in local profile storage."
+                },
+                "profileVault.crypto.encryptExports": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Encrypt exported .pvault files."
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,205 @@
+site_name: Profile Vault
+site_description: Cross-IDE profile management for Windsurf, Antigravity, and VSCode
+site_author: Profile Vault Team
+site_url: https://profile-vault.dev
+
+# Repository
+repo_name: profile-vault/profile-vault
+repo_url: https://github.com/profile-vault/profile-vault
+edit_uri: edit/main/docs/
+
+# Copyright
+copyright: Copyright &copy; 2024 Profile Vault Team
+
+# Configuration
+theme:
+  name: material
+  language: en
+  features:
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - content.tabs.link
+    - content.tooltips
+    - header.autohide
+    - navigation.expand
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    - toc.integrate
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  favicon: assets/favicon.png
+  logo: assets/logo.png
+
+# Plugins
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+  - minify:
+      minify_html: true
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: datetime
+      timezone: UTC
+  - git-committers:
+      repository: profile-vault/profile-vault
+      branch: main
+  - git-authors:
+      repository: profile-vault/profile-vault
+      branch: main
+  - social:
+      cards_layout_options:
+        font_family: Roboto
+  - mkdocs-version-annotations:
+      version: 0.2.0
+  - awesome-pages
+
+# Customization
+extra:
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/profile-vault/profile-vault
+    - icon: fontawesome/brands/docker
+      link: https://github.com/profile-vault/profile-vault/pkgs/container/profile-vault
+  version:
+    provider: mike
+    default: stable
+    canonical: https://profile-vault.dev
+
+# Extensions
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: profile-vault
+      repo: profile-vault
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Navigation
+nav:
+  - Home: index.md
+  - Getting Started:
+    - getting-started/index.md
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+    - Configuration: getting-started/configuration.md
+  - User Guide:
+    - user-guide/index.md
+    - Capturing Profiles: user-guide/capturing.md
+    - Applying Profiles: user-guide/applying.md
+    - Export & Import: user-guide/export-import.md
+    - Security: user-guide/security.md
+    - MCP Server: user-guide/mcp-server.md
+  - API Reference:
+    - api/index.md
+    - Extension API: api/extension.md
+    - MCP Server API: api/mcp-server.md
+    - Configuration Schema: api/configuration.md
+  - Developers:
+    - developers/index.md
+    - Architecture: developers/architecture/index.md
+    - Contributing: developers/contributing.md
+    - Maintainer Playbook: developers/maintainers-playbook.md
+    - Code of Conduct: developers/code-of-conduct.md
+    - Security: developers/security.md
+  - Release Notes:
+    - release-notes/index.md
+
+# Page tree
+awesome_pages:
+  - index.md
+  - title: Getting Started
+    children:
+      - getting-started/index.md
+      - getting-started/installation.md
+      - getting-started/quickstart.md
+      - getting-started/configuration.md
+  - title: User Guide
+    children:
+      - user-guide/index.md
+      - user-guide/capturing.md
+      - user-guide/applying.md
+      - user-guide/export-import.md
+      - user-guide/security.md
+      - user-guide/mcp-server.md
+  - title: API Reference
+    children:
+      - api/index.md
+      - api/extension.md
+      - api/mcp-server.md
+      - api/configuration.md
+  - title: Developers
+    children:
+      - developers/index.md
+      - developers/architecture/index.md
+      - developers/contributing.md
+      - developers/maintainers-playbook.md
+      - developers/code-of-conduct.md
+      - developers/security.md
+  - release-notes/index.md

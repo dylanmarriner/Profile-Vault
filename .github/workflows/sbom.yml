@@ -1,0 +1,97 @@
+name: Generate SBOM
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  actions: read
+  packages: write
+
+jobs:
+  generate-sbom:
+    name: Generate SBOM
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm run build
+
+      - name: Install CycloneDX CLI
+        run: |
+          npm install -g @cyclonedx/cyclonedx-cli
+
+      - name: Install SPDX Tools
+        run: |
+          npm install -g @spdx-tools/spdx-sbom-generator
+
+      - name: Generate SPDX SBOM
+        run: |
+          spdx-sbom-generator --version ${{ github.ref_type == 'tag' && github.ref_name || '0.0.0-dev' }} \
+                              --output sbom.spdx.json \
+                              --include-files
+
+      - name: Generate CycloneDX SBOM
+        run: |
+          cyclonedx-bom --version ${{ github.ref_type == 'tag' && github.ref_name || '0.0.0-dev' }} \
+                         --type library \
+                         --output-format json \
+                         --output-file sbom.cdx.json \
+                         --include-project-name \
+                         --include-license-text \
+                         --include-component-hash \
+                         packages/
+
+      - name: Generate provenance
+        if: github.event_name == 'release'
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: 'sbom.*.json'
+
+      - name: Upload SBOM artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: sbom
+          path: |
+            sbom.spdx.json
+            sbom.cdx.json
+          retention-days: 90
+
+      - name: Attach SBOM to release
+        if: github.event_name == 'release'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: sbom.cdx.json
+          asset_name: sbom.cdx.json
+          asset_content_type: application/json
+
+      - name: Attach SPDX to release
+        if: github.event_name == 'release'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: sbom.spdx.json
+          asset_name: sbom.spdx.json
+          asset_content_type: application/json

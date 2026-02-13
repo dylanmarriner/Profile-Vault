@@ -1,0 +1,37 @@
+# Release Drafter configuration
+# Template for automatically generated release notes
+
+template: |
+  ## Changes
+  $CHANGES
+
+categories:
+  - title: '🚀 Features'
+    labels:
+      - 'type: feature'
+      - 'area: extension'
+      - 'area: mcp-server'
+    exclude-labels:
+      - 'dependencies'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'type: bugfix'
+  - title: '⚙️ Maintenance'
+    labels:
+      - 'type: chore'
+      - 'dependencies'
+  - title: '🔒 Security'
+    labels:
+      - 'area: security'
+      - 'security'
+  - title: '📝 Documentation'
+    labels:
+      - 'area: documentation'
+
+change-title-escapes: '\<*_&'
+
+# No duplicate PRs in release notes
+duplicate-issues: false
+
+# Include PR body if no conventional commit
+include-pull-requests-from: 'default'

@@ -1,0 +1,30 @@
+# Code Owners
+
+This file defines who owns which parts of the repository. Code owners are automatically requested for review when pull requests are opened.
+
+# Repository Owners
+* @profile-vault/maintainers
+
+# Extension Package
+/packages/extension/ @profile-vault/extension-team
+/packages/extension/src/core/ @profile-vault/core-team
+/packages/extension/src/ui/ @profile-vault/ui-team
+
+# MCP Server
+/packages/mcp-server/ @profile-vault/mcp-team
+
+# Documentation
+/docs/ @profile-vault/docs-team
+*.md @profile-vault/docs-team
+
+# Build and CI
+.github/workflows/ @profile-vault/devops-team
+/scripts/ @profile-vault/devops-team
+
+# Security
+SECURITY.md @profile-vault/security-team
+/src/**/crypto.ts @profile-vault/security-team
+/src/**/auth.ts @profile-vault/security-team
+
+# Emergency Overrides (can override any file)
+* @profile-vault/maintainers

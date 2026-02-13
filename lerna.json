@@ -1,0 +1,15 @@
+{
+  "version": 7,
+  "npmClient": "npm",
+  "command": {
+    "publish": {
+      "conventionalCommits": true,
+      "message": "chore(release): publish packages"
+    },
+    "version": {
+      "allowBranch": ["main", "release/*"],
+      "conventionalCommits": true
+    }
+  },
+  "packages": ["packages/*"]
+}

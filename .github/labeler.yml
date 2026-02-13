@@ -1,0 +1,53 @@
+# Labeler configuration
+# Add labels to PRs based on changed files
+
+'area: extension':
+  - packages/extension/**/*
+  - extension/**/*
+
+'area: mcp-server':
+  - packages/mcp-server/**/*
+  - mcp/**/*
+
+'area: documentation':
+  - docs/**/*
+  - mkdocs.yml
+  - "*.md"
+
+'area: ci/cd':
+  - .github/workflows/**/*
+  - .github/dependabot.yml
+  - .github/labeler.yml
+
+'area: security':
+  - SECURITY.md
+  - "**/crypto/**/*"
+  - "**/auth/**/*"
+  - "**/redaction/**/*"
+
+'type: feature':
+  - any: ['src/**/*.ts']
+    all: ['!**/*.test.ts', '!**/*.spec.ts']
+
+'type: bugfix':
+  - any: ['**/fix/**/*', '**/bugfix/**/*']
+
+'type: chore':
+  - any: ['package*.json', 'yarn.lock', 'pnpm-lock.yaml']
+
+'type: breaking':
+  - any: ['**/BREAKING_CHANGE.md']
+
+'dependencies':
+  - package*.json
+  - yarn.lock
+  - pnpm-lock.yaml
+  - npm-shrinkwrap.json
+
+'tests':
+  - '**/*.test.ts'
+  - '**/*.spec.ts'
+  - '**/test/**/*'
+  - '**/tests/**/*'
+  - jest.config.*
+  - tsconfig.*.json

@@ -1,0 +1,17 @@
+{
+    "name": "profile-vault-mcp",
+    "version": "0.1.0",
+    "type": "module",
+    "main": "dist/server.js",
+    "scripts": {
+        "build": "tsc -p .",
+        "start": "node dist/server.js"
+    },
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^1.0.0"
+    },
+    "devDependencies": {
+        "@types/node": "^20.12.7",
+        "typescript": "^5.4.5"
+    }
+}
